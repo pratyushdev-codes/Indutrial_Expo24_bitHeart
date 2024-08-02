@@ -19,37 +19,44 @@ function Home() {
       setCalories(parsedData * 0.033);
     });
 
-    const generateRandomValue = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
-
-
-    const updateBeatsperMinute=()=>{
-      
-    }
-      
+    function generateRandomValue() {
+      return Math.floor(Math.random() * (100 - 60 + 1)) + 60;
     }
 
-    const updateHeartRate = () => {
-      setHeartRate(generateRandomValue(60, 100));
-    };
+    const updateBeatsPerMinute = () => {
+      var beatsPerMinuteElement = document.getElementById("beatsPerMinuteElement");
+      beatsPerMinuteElement.textContent = generateRandomValue();
+    }
 
-    const updateBloodPressure = () => {
-      setBloodPressure(generateRandomValue(70, 82));
-    };
+    updateBeatsPerMinute();
+
+    const heartRateInterval = setInterval(() => {
+      updateBeatsPerMinute();
+    }, 5000);
+
+    function generateRandomValue1() {
+      return Math.floor(Math.random() * (82 - 70)) + 70;
+    }
+
+    const updateBP = () => {
+      var bpElement = document.getElementById("bp");
+      bpElement.textContent = generateRandomValue1();
+    }
+
+    const bloodPressureInterval = setInterval(() => {
+      updateBP();
+    }, 2000);
 
     const updateChartData = () => {
       setChartData((prevData) => [
         ...prevData,
-        { name: new Date().toLocaleTimeString(), heartRate, bloodPressure, calories },
+        { name: new Date().toLocaleTimeString(), heartRate: generateRandomValue(), bloodPressure: generateRandomValue1(), calories },
       ]);
     };
 
-    const heartRateInterval = setInterval(updateHeartRate, 2000);
-    const bloodPressureInterval = setInterval(updateBloodPressure, 2000);
     const chartDataInterval = setInterval(updateChartData, 2000);
 
     // Initial update
-    updateHeartRate();
-    updateBloodPressure();
     updateChartData();
 
     return () => {
@@ -58,45 +65,45 @@ function Home() {
       clearInterval(chartDataInterval);
       socket.disconnect();
     };
-  }, [heartRate, bloodPressure, calories, steps]);
+  }, [calories]);
 
   return (
-    <main className='main-container'>
+    <main className='main-container' style={{ backgroundImage: "url('/images/grad1.png')", backgroundSize:"cover"}}>
       <div className='main-title'>
-        <h3><i class="fa-solid fa-list" style={{color:"#2862FF"}}></i> &nbsp;Dashboard </h3>
+        <h3><i className="fa-solid fa-list" style={{ color: "#2862FF" }}></i> &nbsp;Dashboard </h3>
       </div>
       <div className='main-cards'>
         <div className='card' style={{ borderRadius: '10px' }}>
           <div className='card-inner'>
-            <h5 style={{ color: 'white' }}> <i class="fa-solid fa-heart-pulse"></i> &nbsp;Heart Rate</h5>
+            <h5 style={{ color: 'white' }}> <i className="fa-solid fa-heart-pulse"></i> &nbsp;Heart Rate</h5>
           </div>
-          <h1>{heartRate}</h1>
+          <h1 id='beatsPerMinuteElement'>{heartRate}</h1>
           <h7>Beats per minute</h7>
         </div>
         <div className='card' style={{ borderRadius: '10px' }}>
           <div className='card-inner'>
-            <h3 style={{ color: 'white' }}> <i class="fa-solid fa-chart-simple"></i> &nbsp;Blood Pressure</h3>
+            <h5 style={{ color: 'white' }}> <i className="fa-solid fa-chart-simple"></i> &nbsp;Blood Pressure</h5>
           </div>
-          <h1>{bloodPressure}</h1>
+          <h1 id='bp'>{bloodPressure}</h1>
           <h5>mm Hg</h5>
         </div>
-        <div className='card' style={{ borderRadius: '10px' , backgroundColor:"#8885D8"}}>
+        <div className='card' style={{ borderRadius: '10px', backgroundColor: "#8885D8" }}>
           <div className='card-inner'>
-            <h3 style={{ color: 'white' }}> <i class="fa-solid fa-shoe-prints"></i> &nbsp; Steps</h3>
+            <h5 style={{ color: 'white' }}> <i className="fa-solid fa-shoe-prints"></i> &nbsp; Steps</h5>
           </div>
           <h1 id='stepsData'>{steps}</h1>
           <h7>Number of Steps</h7>
         </div>
-        <div className='card' style={{ borderRadius: '10px' , backgroundColor:"#FFC658"}}>
+        <div className='card' style={{ borderRadius: '10px', backgroundColor: "#FDDF8E" }}>
           <div className='card-inner'>
-            <h3 style={{ color: 'white' }}> <i class="fa-solid fa-notes-medical"></i> &nbsp;Calories</h3>
+            <h5 style={{ color: 'white' }}> <i className="fa-solid fa-notes-medical"></i> &nbsp;Calories</h5>
           </div>
           <h1>{calories.toFixed(2)}</h1>
           <h7>kilo joules</h7>
         </div>
       </div>
-      <br/>
-      <h3> <i class="fa-solid fa-chart-line" style={{color:"#2862FF"}}></i> &nbsp;Your Health Data Chart </h3>
+      <br />
+      <h3> <i className="fa-solid fa-chart-line" style={{ color: "#2862FF" }}></i> &nbsp;Your Health Data Chart </h3>
       <div className='charts'>
         <ResponsiveContainer width='100%' height={300}>
           <BarChart
@@ -138,16 +145,16 @@ function Home() {
             <Line type='monotone' dataKey='calories' stroke='#ffc658' />
           </LineChart>
         </ResponsiveContainer>
-       
+
         <div className='healthStatus my-2'>
-          <h3><i class="fa-solid fa-hand-holding-droplet" style={{color:"#2862FF"}}></i>&nbsp; Check your Health Status</h3>
-          <button type="button" class="btn my-3 mx-6" style={{backgroundColor:"#2862FF", borderRadius:"20px",color:"white"}}>Check Health</button>
+          <h3><i className="fa-solid fa-hand-holding-droplet" style={{ color: "#2862FF" }}></i>&nbsp; Check your Health Status</h3>
+          <button type="button" className="btn my-3 mx-6" style={{ backgroundColor: "#2862FF", borderRadius: "20px", color: "white" }}>Check Health</button>
         </div>
         <div className='heartStatus'>
-          <h3><i class="fa-solid fa-hand-holding-heart" style={{color:"#2862FF"}}></i> &nbsp; Check your Heart Status</h3>
-          <button type="button" class="btn my-3 mx-6" style={{backgroundColor:"#2862FF",borderRadius:"20px", color:"white"}}>Check Heart Conditions</button>
+          <h3><i className="fa-solid fa-hand-holding-heart" style={{ color: "#2862FF" }}></i> &nbsp; Check your Heart Status</h3>
+          <button type="button" className="btn my-3 mx-6" style={{ backgroundColor: "#2862FF", borderRadius: "20px", color: "white" }}>Check Heart Conditions</button>
         </div>
-        
+
       </div>
     </main>
   );

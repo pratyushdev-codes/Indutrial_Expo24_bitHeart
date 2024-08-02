@@ -4,10 +4,10 @@ import { Link } from 'react-router-dom';
 
 function Sidebar({ openSidebarToggle, OpenSidebar }) {
   return (
-    <aside id="sidebar" className={openSidebarToggle ? "sidebar-responsive" : ""}>
+    <aside id="sidebar" className={openSidebarToggle ? "sidebar-responsive" : "" }>
       <div className='sidebar-title'>
         <div className='sidebar-brand'>
-            <h2 style={{color:"white"}}> bitHeart</h2>
+            <h2 style={{color:"white", fontWeight:"bolder"}}> <img src='./images/logo.png' style={{height:"33px", width:"35px"}}/> &nbsp;BitHeart</h2>
         </div>
         <span className='icon close_icon' onClick={OpenSidebar}>X</span>
       </div>
