@@ -21,6 +21,13 @@ function Home() {
 
     const generateRandomValue = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
 
+
+    const updateBeatsperMinute=()=>{
+      
+    }
+      
+    }
+
     const updateHeartRate = () => {
       setHeartRate(generateRandomValue(60, 100));
     };
@@ -56,7 +63,7 @@ function Home() {
   return (
     <main className='main-container'>
       <div className='main-title'>
-        <h3><i class="fa-solid fa-list"></i> &nbsp;Dashboard </h3>
+        <h3><i class="fa-solid fa-list" style={{color:"#2862FF"}}></i> &nbsp;Dashboard </h3>
       </div>
       <div className='main-cards'>
         <div className='card' style={{ borderRadius: '10px' }}>
@@ -89,7 +96,7 @@ function Home() {
         </div>
       </div>
       <br/>
-      <h3> <i class="fa-solid fa-chart-line"></i> &nbsp;Your Health Data Chart </h3>
+      <h3> <i class="fa-solid fa-chart-line" style={{color:"#2862FF"}}></i> &nbsp;Your Health Data Chart </h3>
       <div className='charts'>
         <ResponsiveContainer width='100%' height={300}>
           <BarChart
@@ -131,12 +138,16 @@ function Home() {
             <Line type='monotone' dataKey='calories' stroke='#ffc658' />
           </LineChart>
         </ResponsiveContainer>
-        <div className='healthStatus'>
-          <h3><i class="fa-solid fa-droplet"></i> &nbsp; Check your Health Status</h3>
+       
+        <div className='healthStatus my-2'>
+          <h3><i class="fa-solid fa-hand-holding-droplet" style={{color:"#2862FF"}}></i>&nbsp; Check your Health Status</h3>
+          <button type="button" class="btn my-3 mx-6" style={{backgroundColor:"#2862FF", borderRadius:"20px",color:"white"}}>Check Health</button>
         </div>
         <div className='heartStatus'>
-          <h3>Check your Heart Status</h3>
+          <h3><i class="fa-solid fa-hand-holding-heart" style={{color:"#2862FF"}}></i> &nbsp; Check your Heart Status</h3>
+          <button type="button" class="btn my-3 mx-6" style={{backgroundColor:"#2862FF",borderRadius:"20px", color:"white"}}>Check Heart Conditions</button>
         </div>
+        
       </div>
     </main>
   );
