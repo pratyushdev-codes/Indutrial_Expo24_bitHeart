@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { BsFillArchiveFill, BsFillGrid3X3GapFill, BsPeopleFill, BsFillBellFill } from 'react-icons/bs';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, LineChart, Line } from 'recharts';
@@ -66,6 +67,27 @@ function Home() {
       socket.disconnect();
     };
   }, [calories]);
+
+
+  //APIS for communication
+
+  const sendStep =()=>{
+    fetch("http://127.0.0.1:5000/sendStep", {
+      method: "POST",
+      body:{steps} ,
+      credentials: "include", // Include this line if you need to send cookies with the request
+    })
+      .then((response) => response.json())
+      .then((response) => {
+        console.log(response);
+        toast.success(response["message"]);
+        setTableCompletely(response);
+      })
+      .catch((err) => {
+        toast.error("Error Sending Data");
+        console.log(err);
+      });
+  };
 
   return (
     <main className='main-container' style={{ backgroundImage: "url('/images/grad1.png')", backgroundSize: "cover" }}>
@@ -153,12 +175,14 @@ function Home() {
         <div className='healthStatus my-2'>
           <h3><i className="fa-solid fa-hand-holding-droplet" style={{ color: "#2862FF" }}></i>&nbsp; Check your Health Status</h3>
           <h7 style={{color:"darkgrey"}}>Analayse your Health Status in with respect to your real time data.</h7>
-          <button type="button" className="btn my-3 mx-6" style={{ backgroundColor: "#2862FF", borderRadius: "20px", color: "white" }}>Check Health</button>
+          <a href='http://127.0.0.1:3000/'>      <button type="button" className="btn my-3 mx-6" style={{ backgroundColor: "#2862FF", borderRadius: "20px", color: "white" }}>Check Health</button></a>
+    
         </div>
         <div className='heartStatus'>
           <h3><i className="fa-solid fa-hand-holding-heart" style={{ color: "#2862FF" }}></i> &nbsp; Check your Heart Status</h3>
           <h7 style={{color:"darkgrey"}}>Predict your Heart Conditions with our trained AI ML Models.</h7>
-          <button type="button" className="btn my-3 mx-6" style={{ backgroundColor: "#2862FF", borderRadius: "20px", color: "white" }}>Check Heart Conditions</button>
+          <a href='http://127.0.0.1:5000/'>          <button type="button" className="btn my-3 mx-6" style={{ backgroundColor: "#2862FF", borderRadius: "20px", color: "white" }}>Check Heart Conditions</button></a>
+
         </div>
 
       </div>
