@@ -71,8 +71,10 @@ function Home() {
 
   //APIS for communication
 
+  //Sending Step Count for Health Status APIS
+
   const sendStep =()=>{
-    fetch("http://127.0.0.1:5000/sendStep", {
+    fetch("http://127.0.0.1:3000/sendStep", {
       method: "POST",
       body:{steps} ,
       credentials: "include", // Include this line if you need to send cookies with the request
@@ -84,7 +86,27 @@ function Home() {
         setTableCompletely(response);
       })
       .catch((err) => {
-        toast.error("Error Sending Data");
+        toast.error("Error Sending Step count Data");
+        console.log(err);
+      });
+  };
+
+
+  //Sending HeartBeat for Health Status
+  const sendHeartBeats =()=>{
+    fetch("http://127.0.0.1:5000/sendHeartBeats", {
+      method: "POST",
+      body:{heartRate} ,
+      credentials: "include", // Include this line if you need to send cookies with the request
+    })
+      .then((response) => response.json())
+      .then((response) => {
+        console.log(response);
+        toast.success(response["message"]);
+        setTableCompletely(response);
+      })
+      .catch((err) => {
+        toast.error("Error Sending Heart Beat Data");
         console.log(err);
       });
   };
